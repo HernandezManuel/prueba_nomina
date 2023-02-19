@@ -16,7 +16,7 @@ class MainApp extends StatelessWidget {
   MainApp({super.key});
   final _routes = {
     '/': (context) => const home(),
-    '/add': (context) => const addName(),
+    '/add': (context) => const AddPersonPage(),
     '/edit': (context) => const editName(),
   };
 

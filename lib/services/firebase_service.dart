@@ -1,34 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-FirebaseFirestore base_de_datos = FirebaseFirestore.instance;
+import '../models/person.dart';
 
-Future<List> getpeople() async {
-  List people = [];
+FirebaseFirestore baseDeDatos = FirebaseFirestore.instance;
+
+Future<List<Person>> getPeople() async {
+  List<Person> people = [];
+
   CollectionReference collectionReferencePeople =
-      base_de_datos.collection('people');
+      baseDeDatos.collection('people');
+
   QuerySnapshot queryPeople = await collectionReferencePeople.get();
 
   for (var doc in queryPeople.docs) {
-    final Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-    final person = {
-      "name": data['name'],
-      "uid": doc.id,
-    };
+    final data = doc.data() as Map<String, dynamic>;
+    Person person = Person.fromJson(
+      doc.id,
+      data,
+    );
     people.add(person);
   }
+
   return people;
 }
 
-Future<void> addPeople(String name) async {
-  await base_de_datos.collection('people').add({
-    "name": name,
-  });
+Future<void> addPeople(Person person) async {
+  person.calculate();
+  await baseDeDatos.collection('people').add(person.toJson());
 }
 
-Future<void> updatePeople(String uid, String Newname) async {
-  await base_de_datos.collection("people").doc(uid).update({"name": Newname});
+Future<void> updatePeople(String uid, String newName) async {
+  await baseDeDatos.collection("people").doc(uid).update({"name": newName});
 }
 
 Future<void> deletePeople(String uid) async {
-  await base_de_datos.collection('people').doc(uid).delete();
+  await baseDeDatos.collection('people').doc(uid).delete();
 }

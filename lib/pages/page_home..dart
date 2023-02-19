@@ -1,10 +1,10 @@
 import 'dart:core';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-
 import 'package:prueba/pages/index.dart';
+
+import '../models/person.dart';
+import 'people_table.dart';
 
 class home extends StatefulWidget {
   const home({
@@ -22,7 +22,8 @@ class _homeState extends State<home> {
       appBar: AppBar(
         title: const Text("Crud"),
       ),
-      body: Tabla(),
+      body: PeopleDataTable(),
+      // body: PeopleListView(),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.pushNamed(context, '/add');
@@ -34,8 +35,8 @@ class _homeState extends State<home> {
   }
 }
 
-class Tabla extends StatelessWidget {
-  const Tabla({
+class PeopleListView extends StatelessWidget {
+  const PeopleListView({
     super.key,
   });
 
@@ -65,15 +66,17 @@ class _procesoTablaState extends State<procesoTabla> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: getpeople(),
+        future: getPeople(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
                 itemCount: snapshot.data?.length,
                 itemBuilder: (context, index) {
+                  Person person = snapshot.data![index];
+
                   return Dismissible(
                     onDismissed: (direction) async {
-                      await deletePeople(snapshot.data?[index]['uid']);
+                      await deletePeople(person.uid);
                       snapshot.data?.removeAt(index);
                     },
                     confirmDismiss: (direction) async {
@@ -83,7 +86,7 @@ class _procesoTablaState extends State<procesoTabla> {
                           builder: (context) {
                             return AlertDialog(
                               title: Text(
-                                  "Esta seguro de que quiere eliminar a ${snapshot.data?[index]['name']}"),
+                                  "Esta seguro de que quiere eliminar a ${person.nombre}"),
                               actions: [
                                 TextButton(
                                     onPressed: () {
@@ -105,14 +108,14 @@ class _procesoTablaState extends State<procesoTabla> {
                       child: const Icon(Icons.delete),
                     ),
                     direction: DismissDirection.endToStart,
-                    key: Key(snapshot.data?[index]['uid']),
+                    key: Key(person.uid),
                     child: ListTile(
-                        title: Text(snapshot.data?[index]['name']),
+                        title: Text(person.nombre),
                         onTap: (() async {
                           await Navigator.pushNamed(context, '/edit',
                               arguments: {
-                                "name": snapshot.data?[index]['name'],
-                                "uid": snapshot.data?[index]['uid'],
+                                "name": person.nombre,
+                                "uid": person.uid,
                               });
                           setState(() {});
                         })),
