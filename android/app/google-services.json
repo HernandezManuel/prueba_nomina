@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "909961869598",
+    "project_id": "prueba-codigomanu",
+    "storage_bucket": "prueba-codigomanu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909961869598:android:ebbeec16fb5f2954eff10f",
+        "android_client_info": {
+          "package_name": "com.example.prueba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "909961869598-jmtikehgvfs1vapccrl1mopsaqcuq4gt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_Gzw_orkhQebvkcYG5a7xBiUmfNUrfw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909961869598-jmtikehgvfs1vapccrl1mopsaqcuq4gt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
